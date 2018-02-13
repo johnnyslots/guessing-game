@@ -1,5 +1,3 @@
-console.log('helloi!');
-
 function generateWinningNumber() {
 	return Math.floor(Math.random() * 100 + 1);
 }
@@ -83,6 +81,14 @@ Game.prototype.provideHint = function() {
 
 
 
-
+$(document).ready(function() {
+	var game = new Game();
+	$('#submit').on('click', function() {
+		var playerInput = $(this).closest('#input-parent').find('#player-input'); 
+		var input = +playerInput.val();
+		playerInput.val('');
+		game.playersGuessSubmission(input);
+	})
+})
 
 
