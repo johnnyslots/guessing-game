@@ -113,6 +113,7 @@ $(document).ready(function() {
 
 	$('#submit').on('click', function() {
 		submitGuess(game);
+
 	})		
 
 	$('#player-input').on('keyup', function(event) {
