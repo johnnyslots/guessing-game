@@ -30,10 +30,6 @@ Game.prototype.isLower = function() {
 }
 
 Game.prototype.playersGuessSubmission = function(num) {
-	if(num < 1 || num > 100 || typeof num !== 'number') {
-		throw 'That is an invalid guess.';
-	}
-	
 	this.playersGuess = num;
 
 	return this.checkGuess();
@@ -41,11 +37,15 @@ Game.prototype.playersGuessSubmission = function(num) {
 
 Game.prototype.checkGuess = function() {
 	if(this.playersGuess === this.winningNumber) {
+		this.pastGuesses.push(this.playersGuess);
 		return 'You Win!';
 	}
 	else  {
 		if(this.pastGuesses.indexOf(this.playersGuess) !== -1) {
 			return 'You\'ve already guessed that number.';	
+		}
+		else if(this.playersGuess < 1 || this.playersGuess > 100) {
+			return 'Invalid guess';
 		}
 		else {
 			this.pastGuesses.push(this.playersGuess);
@@ -85,29 +85,31 @@ function submitGuess(game) {
 	var output = game.playersGuessSubmission(input);
 	$('h1').text(output);
 
-	$('#guess-list li:nth-child('+game.pastGuesses.length+')').text(input);
-
-	if(input < game.winningNumber) {
-		$('h3').text('guess higher');
+	if(output === 'Invalid guess') {
+		$('h3').text('Guess a number between 1-100');
 	}
+
 	else {
-		$('h3').text('guess lower');	
+		if(input < game.winningNumber) {
+			$('h3').text('guess higher');
+		}
+		else {
+			$('h3').text('guess lower');	
+		}
+
+		if(output === 'You Win!' || output === 'You Lose') {	
+			$('h3').text('The winning number was ' + game.winningNumber + '. Press the Reset button to play again!');
+			$('#submit, #hint, #player-input').attr("disabled", true);
+		}
+
+		$('#guess-list li:nth-child('+game.pastGuesses.length+')').text(input);
+
 	}
-
-	if(output === 'You Win!' || output === 'You Lose') {	
-		$('h3').text('The winning number was ' + game.winningNumber + '. Press the Reset button to play again!');
-		$('#submit, #hint, #player-input').attr("disabled", true);
-	}
-
-
-	console.log(game);
 }
 
 
 $(document).ready(function() {
 	var game = newGame();
-
-	console.log(game.provideHint().join(', '))
 
 	$('#submit').on('click', function() {
 		submitGuess(game);
@@ -134,7 +136,4 @@ $(document).ready(function() {
 	})
 })
 
-
-// display message if number is invalid
-// clear input if number is typed and not entered before resetting
 

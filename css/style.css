@@ -133,7 +133,7 @@ img {
 
 /* ANIMATION */
 
-/*#app :not(#title) {
+#app :not(#title) {
   animation: fadein 2.5s;
 }
 
@@ -148,7 +148,7 @@ img {
 @keyframes fadein {
   from { opacity: 0}
   to   { opacity: 1}
-}*/
+}
 
 #github-logo {
     -webkit-animation-name: spin;
