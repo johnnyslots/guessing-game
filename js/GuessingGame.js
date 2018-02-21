@@ -91,10 +91,10 @@ function submitGuess(game) {
 
 	else {
 		if(input < game.winningNumber) {
-			$('h3').text('guess higher');
+			$('h3').text('...guess higher');
 		}
 		else {
-			$('h3').text('guess lower');	
+			$('h3').text('...guess lower');	
 		}
 
 		if(output === 'You Win!' || output === 'You Lose') {	
@@ -102,11 +102,13 @@ function submitGuess(game) {
 			$('#submit, #hint, #player-input').attr("disabled", true);
 		}
 
-		$('#guess-list li:nth-child('+game.pastGuesses.length+')').text(input);
+		if(output !== 'You\'ve already guessed that number.') {
+			$('#guess-list li:nth-child('+game.pastGuesses.length+')').text(input);	
+		}		
 
+		
 	}
 }
-
 
 $(document).ready(function() {
 	var game = newGame();
@@ -123,13 +125,13 @@ $(document).ready(function() {
 	});
 
 	$('#hint').on('click', function() {
-		$('h1').text('The Guessing Game');
+		$('h1').text('The Guessing Game!');
 		$('h3').text('The winning number is one of the following: ' + game.provideHint().join(', '))
 	})
 
 	$('#reset').on('click', function() {
 		game = newGame();
-		$('h1').text('The Guessing Game');
+		$('h1').text('The Guessing Game!');
 		$('h3').text('Guess a number between 1-100');
 		$('.guess').text('-');
 		$('#player-input').val('');
